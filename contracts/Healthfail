@@ -18,20 +18,16 @@ contract Healthcare {
     }
 
     Record[] public records;
-
      
-    // Create new movie
     function create(uint256 _EHRNumber, string memory _Today, string memory _Ntype, string memory _Dtype, string memory _Ptype, string memory _Vtype, string memory _Vstype, string memory _Nstype, string memory _Htype) public{
         records.push(Record(_EHRNumber, _Today, _Ntype, _Dtype, _Ptype, _Vtype, _Vstype, _Nstype, _Htype));
     }
 
-    // Read movie data passing movie id
     function read(uint256 _EHRNumber,string memory _Today) view public returns( string memory,string memory, string memory, string memory,string memory, string memory, string memory, string memory) {
         uint i = find(_EHRNumber,_Today);
         return(records[i].Today,records[i].Ntype, records[i].Dtype,records[i].Ptype,records[i].Vtype,records[i].Vstype,records[i].Nstype,records[i].Htype);
     }
 
-    // Update movie
     function update(uint256 _EHRNumber,string memory _Today, string memory _Ntype, string memory _Dtype, string memory _Ptype, string memory _Vtype, string memory _Vstype, string memory _Nstype, string memory _Htype) public {
         uint i = find(_EHRNumber,_Today);
         records[i].Ntype= _Ntype;
@@ -44,13 +40,11 @@ contract Healthcare {
         
     }
 
-    // Delete movie
     function destroy(uint256 _EHRNumber,string memory _Today) public {
         uint i = find(_EHRNumber,_Today);
         delete records[i];
     }
 
-    // Find movie
     function find(uint256 _EHRNumber,string memory _Today) view public returns(uint) {
         for(uint i = 0; i < records.length; i++) {
            if((keccak256(bytes(records[i].Today))) == (keccak256(bytes(_Today)))){
