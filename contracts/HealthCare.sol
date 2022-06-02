@@ -50,7 +50,6 @@ contract HealthCare {
          private{
         Record storage _newrecord = records[_EHRNumber];
 
-        // Only allows new records to be created
         require(!records[_EHRNumber].isValue);
             _newrecord.pAddr = msg.sender;
             _newrecord.EHRNumber = _EHRNumber;

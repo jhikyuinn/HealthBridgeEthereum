@@ -1,15 +1,13 @@
 import React, {useState } from 'react';
 import axios from 'axios';
-import HealthCare from "./HealthCare";
-import web3 from "./web3";
 
 function offFhir(){
-    const[Today,setToday]=useState("");
+    var[Today,setToday]=useState("");
     const[EHRNumber,setEHRNumber]=useState("");
     const[Username,setUsername]=useState("");
     const[Userbirth,setUserbirth]=useState("");
     const[Usergender,setUsergender]=useState("");
-    const[Userphone,setUserphone]=useState("");
+    var[Userphone,setUserphone]=useState("");
     const[Userlocation,setUserlocation]=useState("");
     const[Ntype,setNtype]=useState("");
     const[Ndate,setNdate]=useState("");
@@ -40,6 +38,7 @@ function offFhir(){
     const[Hdate,setHdate]=useState("");
     const[Hreview,setHreview]=useState("");
 
+    var Response;
 
     const CreateInformation= async() => {
         await axios.put(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`,{
@@ -94,19 +93,24 @@ function offFhir(){
           ]
         })
     .then((res) => {
-        console.log(res);
+      window.alert("Create Success");
+      console.log(res);
     });
 }
 
 const SearchInformation = async () => {
     await axios.get(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {
-        console.log(res);
+      window.alert("Search Success");
+      setUserbirth(res.data.birthDate);
+      setUsergender(res.data.gender);
+      setUserphone(res.data.telecom[0].value);
     });
 }
 
 const DeleteInformation = async () => {
-    await axios.delete(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {
-        console.log(res);
+    await axios.delete(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {  
+      window.alert("Delete Success");
+      console.log(res);
     });
 }
 
@@ -472,20 +476,20 @@ const DeleteInformation = async () => {
                 </tr>
                 </thead>
 
-                <thead>
-                <tr>
-                <td>{Today}</td>
-                <td>{EHRNumber}</td>
-                <td>{Username}</td>
-                <td>{Userbirth}</td>
-                <td>{Usergender}</td>
-                <td>{Userphone}</td>
-                <td>{Userlocation}</td>
-                <td>{Dtype}</td>
-                <td>{Ddate}</td>
-                <td>{Dreview}</td>
-                </tr>
-                </thead>
+                  <thead>
+                  <tr>
+                  <td>{Today}</td>
+                  <td>{EHRNumber}</td>
+                  <td>{Username}</td>
+                  <td>{Userbirth}</td>
+                  <td>{Usergender}</td>
+                  <td>{Userphone}</td>
+                  <td>{Userlocation}</td>
+                  <td>{Dtype}</td>
+                  <td>{Ddate}</td>
+                  <td>{Dreview}</td>
+                  </tr>
+                  </thead>
               
             </table>
 
