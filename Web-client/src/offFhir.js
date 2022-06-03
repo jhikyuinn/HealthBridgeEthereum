@@ -1,13 +1,15 @@
 import React, {useState } from 'react';
+import useCollapse from 'react-collapsed';
 import axios from 'axios';
 
 function offFhir(){
-    var[Today,setToday]=useState("");
+    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+    const[Today,setToday]=useState("");
     const[EHRNumber,setEHRNumber]=useState("");
     const[Username,setUsername]=useState("");
     const[Userbirth,setUserbirth]=useState("");
     const[Usergender,setUsergender]=useState("");
-    var[Userphone,setUserphone]=useState("");
+    const[Userphone,setUserphone]=useState("");
     const[Userlocation,setUserlocation]=useState("");
     const[Ntype,setNtype]=useState("");
     const[Ndate,setNdate]=useState("");
@@ -91,11 +93,101 @@ function offFhir(){
               "postalCode" : ""
             }
           ]
-        })
+        },
+        await axios.put(`http://203.247.240.226:8080/fhir/QuestionnaireResponse/${EHRNumber}`,{
+            "resourceType": "QuestionnaireResponse",
+            "id": EHRNumber,
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 2px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The linkId for the item\">LinkId</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Text for the item\">Text</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the itemcan appear in the instance\">Definition</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The type of the item\">Answer</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck1.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon_q_root.gif\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"QuestionnaireResponseRoot\" class=\"hierarchy\"/> f201</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">QuestionnaireResponse</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you have allergies?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">true</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck11.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">General questions</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your gender?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Male</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your date of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">1960-03-13</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your country of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">The Netherlands</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck100.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.4</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your marital status?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">married</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck01.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Intoxications</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck010.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.1</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you smoke?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck000.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.2</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you drink alchohol?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr><td colspan=\"4\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
+            },
+            "status": "completed",
+            "subject": {
+              "reference": "Patient/f201",
+              "display": "Roel"
+            },
+            "authored": "2013-06-18T00:00:00+01:00",
+            "author": {
+              "reference": "Practitioner/f201"
+            },
+            "source": {
+              "reference": "Practitioner/f201"
+            },
+            "item": [
+              {
+                "linkId": "1",
+                "text": "aK",
+                "item": [
+                  {
+                    "linkId": "1.1",
+                    "text": "What is your gender?",
+                    "answer": [
+                      {
+                        "valueString": "Male"
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "1.2",
+                    "text": "What is your date of birth?",
+                    "answer": [
+                      {
+                        "valueDate": "1960-03-13"
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "1.3",
+                    "text": "What is your country of birth?",
+                    "answer": [
+                      {
+                        "valueString": "The Netherlands"
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "2.4",
+                    "text": "What is your marital status?",
+                    "answer": [
+                      {
+                        "valueString": "married"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "linkId": "3",
+                "text": "Intoxications",
+                "item": [
+                  {
+                    "linkId": "3.1",
+                    "text": "Do you smoke?",
+                    "answer": [
+                      {
+                        "valueBoolean": false
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "3.2",
+                    "text": "Do you drink alchohol?",
+                    "answer": [
+                      {
+                        "valueBoolean": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        )
+      )
     .then((res) => {
       window.alert("Create Success");
       console.log(res);
-    });
+    })
 }
 
 const SearchInformation = async () => {
@@ -117,10 +209,10 @@ const DeleteInformation = async () => {
     
     return(
         <div className="container container-fluid login-conatiner">
-            <div className="col-md-4">
+          <div className="col-md-4">
             <div className="login-form">
-                <form method="post" autoComplete="off">
                 <h2 className="text-center">New Record</h2>
+
                 Today Date
                 <div className="form-group">
                 <input
@@ -131,7 +223,12 @@ const DeleteInformation = async () => {
                   placeholder="Today"
                 />
                 </div>
-                User Basic Information
+
+                <div>
+                <button {...getToggleProps()}>
+                {isExpanded ? 'User Basic Information v' : 'User Basic Information >'}
+                </button>
+                <section {...getCollapseProps()}>
                 <div className="form-group">
                 <input
                   type="text"
@@ -186,9 +283,15 @@ const DeleteInformation = async () => {
                   placeholder="Userlocation"
                 />
               </div>
+             </section>
+             </div>
 
-              Disability aids
-              <div className="form-group">
+             <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Disability aids v' : '  Disability aids >'}
+              </button>
+              <section {...getCollapseProps()}>
+               <div className="form-group">
                 <input
                   type="text"
                   value={Dtype}
@@ -215,8 +318,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
+              </section>
+             </div>
 
-              Nutritional supplements
+             <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '   Nutritional supplements v' : '   Nutritional supplements >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -244,8 +353,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
+              </section>
+              </div>
 
-              Non-surgical cosmetic treatment
+              <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Non-surgical cosmetic treatment v' : '  Non-surgical cosmetic treatment >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -291,8 +406,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
+              </section>
+              </div>
 
-              Vision correction surgery
+              <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Vision correction surgery v' : '  Vision correction surgery >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -338,8 +459,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
+              </section>
+              </div>
 
-              Hair problems
+              <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Hair problems v' : '  Hair problems >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -376,7 +503,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              Vaccine
+              </section>
+              </div>
+
+              <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Vaccine v' : '  Vaccine >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -413,9 +547,14 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
+              </section>
+              </div>
               
-
-              Physical therapy / rehabilitation
+              <div>
+              <button {...getToggleProps()}>
+              {isExpanded ? '  Physical therapy / rehabilitation v' : '  Physical therapy / rehabilitation >'}
+              </button>
+              <section {...getCollapseProps()}>
               <div className="form-group">
                 <input
                   type="text"
@@ -452,11 +591,11 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              
-                </form>
+              </section>
+              </div>
             </div>
             </div>
-
+            
         <div className="col-md-6 col-md-offset-2">
           <div className="c-list">
             <h2 className="text-center">Record Confirm</h2>
@@ -585,7 +724,7 @@ const DeleteInformation = async () => {
 
             
             </div>
-             <div className="form-group">
+             <div className="form-group" style={{display:"flex"}}>
                <button
                 type="submit"
                 className="btn btn-primary btn-block"
@@ -593,8 +732,7 @@ const DeleteInformation = async () => {
                 >
                 Create
                </button>
-             </div>
-             <div className="form-group">
+
                <button
                 type="submit"
                 className="btn btn-primary btn-block"
@@ -602,8 +740,7 @@ const DeleteInformation = async () => {
                 >
                 Search
                </button>
-             </div>
-             <div className="form-group">
+
                <button
                 type="submit"
                 className="btn btn-primary btn-block"
@@ -614,7 +751,7 @@ const DeleteInformation = async () => {
              </div>
         </div>
     </div>
-    )
+  )
 }
   
 export default offFhir;
