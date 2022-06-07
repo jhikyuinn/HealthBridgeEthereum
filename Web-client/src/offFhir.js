@@ -1,10 +1,35 @@
 import React, {useState } from 'react';
 import useCollapse from 'react-collapsed';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import "./index.css";
+
+function Section(props) {
+  const config = {
+      defaultExpanded: props.defaultExpanded || false,
+      collapsedHeight: props.collapsedHeight || 0
+  };
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
+return (
+  <div className="collapsible">
+      <div className="header" {...getToggleProps()}>
+          <div className="title">{props.title+(isExpanded ? ' 👇🏻 ' : ' 👉🏻 ')}</div>
+          <div className="icon">
+              <i className={'fas fa-chevron-circle-' + (isExpanded ? 'up' : 'down')}></i>
+          </div>
+      </div>
+      <div {...getCollapseProps()}>
+          <div className="content">
+              {props.children}
+          </div>
+      </div>
+  </div>
+  );
+}
 
 function offFhir(){
-    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
-    const[Today,setToday]=useState("");
+  let navigate = useNavigate();
+    const today= new Date().toLocaleDateString('ko');
     const[EHRNumber,setEHRNumber]=useState("");
     const[Username,setUsername]=useState("");
     const[Userbirth,setUserbirth]=useState("");
@@ -39,8 +64,6 @@ function offFhir(){
     const[Hsolution,setHsolution]=useState("");
     const[Hdate,setHdate]=useState("");
     const[Hreview,setHreview]=useState("");
-
-    var Response;
 
     const CreateInformation= async() => {
         await axios.put(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`,{
@@ -93,116 +116,354 @@ function offFhir(){
               "postalCode" : ""
             }
           ]
-        },
-        await axios.put(`http://203.247.240.226:8080/fhir/QuestionnaireResponse/${EHRNumber}`,{
-            "resourceType": "QuestionnaireResponse",
-            "id": EHRNumber,
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 2px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The linkId for the item\">LinkId</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Text for the item\">Text</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the itemcan appear in the instance\">Definition</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The type of the item\">Answer</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck1.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon_q_root.gif\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"QuestionnaireResponseRoot\" class=\"hierarchy\"/> f201</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">QuestionnaireResponse</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you have allergies?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">true</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck11.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">General questions</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your gender?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Male</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your date of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">1960-03-13</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your country of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">The Netherlands</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck100.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.4</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your marital status?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">married</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck01.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Intoxications</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck010.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.1</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you smoke?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck000.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.2</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you drink alchohol?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr><td colspan=\"4\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
+        },await axios.put(`http://203.247.240.226:8080/fhir/QuestionnaireResponse/${EHRNumber}`,{
+          "resourceType": "QuestionnaireResponse",
+          "id": EHRNumber,
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 2px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The linkId for the item\">LinkId</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Text for the item\">Text</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the itemcan appear in the instance\">Definition</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The type of the item\">Answer</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck1.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon_q_root.gif\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"QuestionnaireResponseRoot\" class=\"hierarchy\"/> f201</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">QuestionnaireResponse</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you have allergies?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">true</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck11.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">General questions</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your gender?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Male</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.2</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your date of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">1960-03-13</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck110.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your country of birth?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">The Netherlands</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck100.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vline.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 2.4</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">What is your marital status?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">married</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck01.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-group.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Group\" class=\"hierarchy\"/> 3</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Intoxications</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck010.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.1</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you smoke?</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck000.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_blank.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-string.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Item\" class=\"hierarchy\"/> 3.2</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Do you drink alchohol?</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">false</td></tr>\n<tr><td colspan=\"4\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
+          },
+          "status": "completed",
+          "subject": {
+            "reference": "Patient/f201",
+            "display": "Roel"
+          },
+          "authored": "2013-06-18T00:00:00+01:00",
+          "author": {
+            "reference": "Practitioner/f201"
+          },
+          "source": {
+            "reference": "Practitioner/f201"
+          },
+          "item": [
+            {
+              "linkId": "1",
+              "text": "Disability aids",
+              "item": [
+                {
+                  "linkId": "1.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Dtype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.2",
+                  "text": "Start date",
+                  "answer": [
+                    {
+                      "valueDate": Ddate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.3",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Dreview
+                    }
+                  ]
+                }
+                
+              ]
             },
-            "status": "completed",
-            "subject": {
-              "reference": "Patient/f201",
-              "display": "Roel"
+            {
+              "linkId": "2",
+              "text": "Nutritional supplements",
+              "item": [
+                {
+                  "linkId": "2.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Ntype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "2.2",
+                  "text": "Start date",
+                  "answer": [
+                    {
+                      "valueDate": Ndate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "2.3",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Nreview
+                    }
+                  ]
+                }
+                
+              ]
             },
-            "authored": "2013-06-18T00:00:00+01:00",
-            "author": {
-              "reference": "Practitioner/f201"
+            {
+              "linkId": "3",
+              "text": "Non-surgical cosmetic treatment",
+              "item": [
+                {
+                  "linkId": "3.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Nstype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "3.2",
+                  "text": "date",
+                  "answer": [
+                    {
+                      "valueDate": Nsdate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "3.3",
+                  "text": "location",
+                  "answer": [
+                    {
+                      "valueString": Nslocation
+                    }
+                  ]
+                },
+                {
+                  "linkId": "3.4",
+                  "text": "doctor",
+                  "answer": [
+                    {
+                      "valueString": Nsdoctor
+                    }
+                  ]
+                },
+                {
+                  "linkId": "3.5",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Nsreview
+                    }
+                  ]
+                }
+                
+              ]
             },
-            "source": {
-              "reference": "Practitioner/f201"
+            {
+              "linkId": "4",
+              "text": "Vision correction surgery",
+              "item": [
+                {
+                  "linkId": "4.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Vstype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "4.2",
+                  "text": "date",
+                  "answer": [
+                    {
+                      "valueDate": Vsdate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "4.3",
+                  "text": "location",
+                  "answer": [
+                    {
+                      "valueString": Vslocation
+                    }
+                  ]
+                },
+                {
+                  "linkId": "4.4",
+                  "text": "doctor",
+                  "answer": [
+                    {
+                      "valueString": Vsdoctor
+                    }
+                  ]
+                },
+                {
+                  "linkId": "4.5",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Vsreview
+                    }
+                  ]
+                }
+                
+              ]
             },
-            "item": [
-              {
-                "linkId": "1",
-                "text": "aK",
-                "item": [
-                  {
-                    "linkId": "1.1",
-                    "text": "What is your gender?",
-                    "answer": [
-                      {
-                        "valueString": "Male"
-                      }
-                    ]
-                  },
-                  {
-                    "linkId": "1.2",
-                    "text": "What is your date of birth?",
-                    "answer": [
-                      {
-                        "valueDate": "1960-03-13"
-                      }
-                    ]
-                  },
-                  {
-                    "linkId": "1.3",
-                    "text": "What is your country of birth?",
-                    "answer": [
-                      {
-                        "valueString": "The Netherlands"
-                      }
-                    ]
-                  },
-                  {
-                    "linkId": "2.4",
-                    "text": "What is your marital status?",
-                    "answer": [
-                      {
-                        "valueString": "married"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "linkId": "3",
-                "text": "Intoxications",
-                "item": [
-                  {
-                    "linkId": "3.1",
-                    "text": "Do you smoke?",
-                    "answer": [
-                      {
-                        "valueBoolean": false
-                      }
-                    ]
-                  },
-                  {
-                    "linkId": "3.2",
-                    "text": "Do you drink alchohol?",
-                    "answer": [
-                      {
-                        "valueBoolean": false
-                      }
-                    ]
-                  }
-                ]
-              }
+            {
+              "linkId": "5",
+              "text": "Hair problems",
+              "item": [
+                {
+                  "linkId": "5.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Htype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "5.2",
+                  "text": "Solution",
+                  "answer": [
+                    {
+                      "valueString": Hsolution
+                    }
+                  ]
+                },
+                {
+                  "linkId": "5.3",
+                  "text": "Date",
+                  "answer": [
+                    {
+                      "valueDate": Hdate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "5.4",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Hreview
+                    }
+                  ]
+                }
+                
+              ]
+            },
+            {
+              "linkId": "6",
+              "text": "Vaccine",
+              "item": [
+                {
+                  "linkId": "6.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Vtype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "6.2",
+                  "text": "Date",
+                  "answer": [
+                    {
+                      "valueDate": Vdate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "6.3",
+                  "text": "Location",
+                  "answer": [
+                    {
+                      "valueString": Vlocation
+                    }
+                  ]
+                },
+                {
+                  "linkId": "6.4",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Vreview
+                    }
+                  ]
+                }
+                
+              ]
+            },
+            {
+              "linkId": "7",
+              "text": "Physical therapy / rehabilitation",
+              "item": [
+                {
+                  "linkId": "7.1",
+                  "text": "Type",
+                  "answer": [
+                    {
+                      "valueString": Ptype
+                    }
+                  ]
+                },
+                {
+                  "linkId": "7.2",
+                  "text": "Date",
+                  "answer": [
+                    {
+                      "valueDate": Pdate
+                    }
+                  ]
+                },
+                {
+                  "linkId": "7.3",
+                  "text": "Location",
+                  "answer": [
+                    {
+                      "valueString": Plocation
+                    }
+                  ]
+                },
+                {
+                  "linkId": "7.4",
+                  "text": "Review",
+                  "answer": [
+                    {
+                      "valueString": Preview
+                    }
+                  ]
+                }
             ]
           }
+        ]
+      }
+    )
         )
-      )
+        
     .then((res) => {
       window.alert("Create Success");
       console.log(res);
     })
-}
+  }
+
 
 const SearchInformation = async () => {
     await axios.get(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {
       window.alert("Search Success");
+      setUsername(res.data.name[0].text);
       setUserbirth(res.data.birthDate);
       setUsergender(res.data.gender);
       setUserphone(res.data.telecom[0].value);
+      setUserlocation(res.data.address[0].text);
+      console.log(res);
     });
 }
 
 const DeleteInformation = async () => {
     await axios.delete(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {  
       window.alert("Delete Success");
-      console.log(res);
+      navigate("/");
     });
 }
 
@@ -216,19 +477,17 @@ const DeleteInformation = async () => {
                 Today Date
                 <div className="form-group">
                 <input
-                  type="Date"
-                  value={Today}
-                  onChange={(e) => {setToday(e.target.value)}}
+                  readOnly="false"
+                  type="text"
+                  value={today}
+                  onChange={(e) => {setEHRNumber(e.target.value)}}
                   className="form-control"
-                  placeholder="Today"
+                  placeholder="Date"
                 />
                 </div>
 
                 <div>
-                <button {...getToggleProps()}>
-                {isExpanded ? 'User Basic Information v' : 'User Basic Information >'}
-                </button>
-                <section {...getCollapseProps()}>
+                <Section title="User Information ">
                 <div className="form-group">
                 <input
                   type="text"
@@ -283,14 +542,9 @@ const DeleteInformation = async () => {
                   placeholder="Userlocation"
                 />
               </div>
-             </section>
-             </div>
-
-             <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Disability aids v' : '  Disability aids >'}
-              </button>
-              <section {...getCollapseProps()}>
+             </Section>
+            <br></br>
+            <Section title="Disability aids">
                <div className="form-group">
                 <input
                   type="text"
@@ -318,14 +572,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-             </div>
-
-             <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '   Nutritional supplements v' : '   Nutritional supplements >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+            <br></br>
+            <Section title="Nutritional supplements" >
               <div className="form-group">
                 <input
                   type="text"
@@ -353,14 +602,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
-
-              <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Non-surgical cosmetic treatment v' : '  Non-surgical cosmetic treatment >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+              <br></br>
+              <Section title="Non-surgical cosmetic treatment" >
               <div className="form-group">
                 <input
                   type="text"
@@ -406,14 +650,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
-
-              <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Vision correction surgery v' : '  Vision correction surgery >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+              <br></br>
+              <Section title="Vision correction surgery" >
               <div className="form-group">
                 <input
                   type="text"
@@ -459,14 +698,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
-
-              <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Hair problems v' : '  Hair problems >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+              <br></br>
+              <Section title="Hair problems" >
               <div className="form-group">
                 <input
                   type="text"
@@ -482,7 +716,7 @@ const DeleteInformation = async () => {
                   value={Hsolution}
                   onChange={(e) => {setHsolution(e.target.value)}}
                   className="form-control"
-                  placeholder="Location"
+                  placeholder="Solution"
                 />
               </div>
               <div className="form-group">
@@ -503,14 +737,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
-
-              <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Vaccine v' : '  Vaccine >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+              <br></br>
+              <Section title="Vaccine" >
               <div className="form-group">
                 <input
                   type="text"
@@ -547,14 +776,9 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
-              
-              <div>
-              <button {...getToggleProps()}>
-              {isExpanded ? '  Physical therapy / rehabilitation v' : '  Physical therapy / rehabilitation >'}
-              </button>
-              <section {...getCollapseProps()}>
+              </Section>
+              <br></br>
+              <Section title="Physical therapy / rehabilitation" >
               <div className="form-group">
                 <input
                   type="text"
@@ -591,11 +815,10 @@ const DeleteInformation = async () => {
                   placeholder="Review"
                 />
               </div>
-              </section>
-              </div>
+             </Section>
             </div>
             </div>
-            
+            </div>
         <div className="col-md-6 col-md-offset-2">
           <div className="c-list">
             <h2 className="text-center">Record Confirm</h2>
@@ -617,7 +840,7 @@ const DeleteInformation = async () => {
 
                   <thead>
                   <tr>
-                  <td>{Today}</td>
+                  <td>{today}</td>
                   <td>{EHRNumber}</td>
                   <td>{Username}</td>
                   <td>{Userbirth}</td>
@@ -724,33 +947,21 @@ const DeleteInformation = async () => {
 
             
             </div>
-             <div className="form-group" style={{display:"flex"}}>
+            <div className="login-form">
+             <div className="form-group" >
                <button
                 type="submit"
                 className="btn btn-primary btn-block"
+                style={{backgroundColor:"#15324B"}}
                 onClick={CreateInformation}
                 >
                 Create
                </button>
-
-               <button
-                type="submit"
-                className="btn btn-primary btn-block"
-                onClick={SearchInformation}
-                >
-                Search
-               </button>
-
-               <button
-                type="submit"
-                className="btn btn-primary btn-block"
-                onClick={DeleteInformation}
-                >
-                Delete
-               </button>
+             </div>
              </div>
         </div>
-    </div>
+      </div>
+
   )
 }
   
