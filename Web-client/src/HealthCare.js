@@ -7,52 +7,42 @@ const abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_EHRNumber",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
-				"name": "_Today",
+				"name": "today",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Ntype",
+				"name": "ehrnumber",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Dtype",
+				"name": "username",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Ptype",
+				"name": "userbirth",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Vtype",
+				"name": "usergender",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Vstype",
+				"name": "userphone",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Nstype",
+				"name": "userlocation",
 				"type": "string"
 			},
-			{
-				"internalType": "string",
-				"name": "_Htype",
-				"type": "string"
-			}
 		],
-		"name": "newRecord",
+		"name": "CreateRecord",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -69,60 +59,48 @@ const abi = [
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "EHRNumber",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
 				"internalType": "string",
-				"name": "_Today",
+				"name": "today",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Ntype",
+				"name": "ehrnumber",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Dtype",
+				"name": "username",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Ptype",
+				"name": "userbirth",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Vtype",
+				"name": "usergender",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Vstype",
+				"name": "userphone",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_Nstype",
+				"name": "userlocation",
 				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "_Htype",
-				"type": "string"
-			},
+			}, 
 		],
-		"name": "recordCreated",
+		"name": "recordCreate",
 		"type": "event"
 	},
 	{
@@ -134,7 +112,7 @@ const abi = [
 				"type": "uint256"
 			}
 		],
-		"name": "_records",
+		"name": "createrecords",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -142,48 +120,38 @@ const abi = [
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_EHRNumber",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
-				"name": "_Today",
+				"name": "today",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Ntype",
+				"name": "ehrnumber",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Dtype",
+				"name": "username",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Ptype",
+				"name": "userbirth",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Vtype",
+				"name": "usergender",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Vstype",
+				"name": "userphone",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_Nstype",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_Htype",
+				"name": "userlocation",
 				"type": "string"
 			},
 			{
@@ -191,11 +159,6 @@ const abi = [
 				"name": "isValue",
 				"type": "bool"
 			},
-			{
-				"internalType": "uint256",
-				"name": "signatureCount",
-				"type": "uint256"
-			}
 		],
 		"payable": false,
 		"stateMutability": "view",
@@ -205,17 +168,17 @@ const abi = [
 		"constant": true,
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "recordsArr",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -223,5 +186,5 @@ const abi = [
 		"type": "function"
 	}
 ]
-
+ 
 export default new web3.eth.Contract(abi, address);

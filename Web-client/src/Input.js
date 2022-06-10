@@ -1,7 +1,6 @@
 import React, {useState } from 'react';
 import useCollapse from 'react-collapsed';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import "./index.css";
 
 function Section(props) {
@@ -27,8 +26,7 @@ return (
   );
 }
 
-function offFhir(){
-  let navigate = useNavigate();
+function Input(){
     const today= new Date().toLocaleDateString('ko');
     const[EHRNumber,setEHRNumber]=useState("");
     const[Username,setUsername]=useState("");
@@ -446,27 +444,6 @@ function offFhir(){
       console.log(res);
     })
   }
-
-
-const SearchInformation = async () => {
-    await axios.get(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {
-      window.alert("Search Success");
-      setUsername(res.data.name[0].text);
-      setUserbirth(res.data.birthDate);
-      setUsergender(res.data.gender);
-      setUserphone(res.data.telecom[0].value);
-      setUserlocation(res.data.address[0].text);
-      console.log(res);
-    });
-}
-
-const DeleteInformation = async () => {
-    await axios.delete(`http://203.247.240.226:8080/fhir/Patient/${EHRNumber}`).then((res) => {  
-      window.alert("Delete Success");
-      navigate("/");
-    });
-}
-
     
     return(
         <div className="container container-fluid login-conatiner">
@@ -477,10 +454,9 @@ const DeleteInformation = async () => {
                 Today Date
                 <div className="form-group">
                 <input
-                  readOnly="false"
+                  readOnly={true}
                   type="text"
                   value={today}
-                  onChange={(e) => {setEHRNumber(e.target.value)}}
                   className="form-control"
                   placeholder="Date"
                 />
@@ -965,4 +941,4 @@ const DeleteInformation = async () => {
   )
 }
   
-export default offFhir;
+export default Input;

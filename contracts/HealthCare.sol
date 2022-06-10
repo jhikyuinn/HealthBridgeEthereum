@@ -1,75 +1,43 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.5.16;
+pragma experimental ABIEncoderV2;
 
-contract HealthCare {
-
-    struct Record {
-        uint256 EHRNumber;
-        uint256 signatureCount;
+contract Healthcare {
+     struct Record {
         string Today;
-        string Ntype;
-        string Dtype;
-        string Ptype;
-        string Vtype;
-        string Vstype;
-        string Nstype;
-        string Htype;
-        bool isValue;
+        string EHRNumber;
+        string Username;
+        string Userbirth;
+        string Usergender;
+        string Userphone;
+        string Userlocation;
         address pAddr;
+        bool isValue;
         mapping (address => uint256) signatures;
     }
-    
-    
-    // Mapping to store records
-    mapping (uint256=> Record) private records;
-    uint256[] private recordsArr;
 
-    event recordCreated(
-        uint256 EHRNumber,
-        string Today,
-        string Ntype,
-        string Dtype,
-        string Ptype,
-        string Vtype,
-        string Vstype,
-        string Nstype,
-        string Htype);
-    
-    // Create new record
-    function newRecord (
-        uint256 _EHRNumber, 
-        string memory _Today, 
-        string memory _Ntype, 
-        string memory _Dtype, 
-        string memory _Ptype, 
-        string memory _Vtype, 
-        string memory _Vstype, 
-        string memory _Nstype, 
-        string memory _Htype)
+    mapping (string=> Record) private records;
+    string[] private recordsArr;
+
+    event recordCreate(string Today, string EHRNumber, string Username, string Userbirth, string Usergender, string Userphone, string Userlocation);
+   
+    function CreateRecord (string memory today, string memory ehrnumber, string memory username, string memory userbirth, string memory usergender, string memory userphone, string memory userlocation)
          private{
-        Record storage _newrecord = records[_EHRNumber];
+        Record storage createrecord = records[ehrnumber];
 
-        require(!records[_EHRNumber].isValue);
-            _newrecord.pAddr = msg.sender;
-            _newrecord.EHRNumber = _EHRNumber;
-            _newrecord.Today = _Today;
-            _newrecord.Ntype = _Ntype;
-            _newrecord.Dtype = _Dtype;
-            _newrecord.Ptype = _Ptype;
-            _newrecord.Vtype = _Vtype;
-            _newrecord.Vstype = _Vstype;
-            _newrecord.Nstype = _Nstype;
-            _newrecord.Htype = _Htype;
-            _newrecord.isValue = true;
-            _newrecord.signatureCount = 0;
+        require(!records[ehrnumber].isValue);
+            createrecord.pAddr = msg.sender;
+            createrecord.Today = today;
+            createrecord.EHRNumber = ehrnumber;
+            createrecord.Username = username;
+            createrecord.Userbirth = userbirth;
+            createrecord.Usergender = usergender;
+            createrecord.Userphone = userphone;
+            createrecord.Userlocation = userlocation;
+            createrecord.isValue = true;
+            
 
-        recordsArr.push(_EHRNumber);
-        emit  recordCreated(_newrecord.EHRNumber, _Today, _Ntype, _Dtype,_Ptype, _Vtype, _Vstype, _Nstype, _Htype);
+        recordsArr.push(ehrnumber);
+        emit  recordCreate(createrecord.Today,ehrnumber,username,userbirth,usergender,userphone,userlocation);
     }
-
-    
-
-
 }
-

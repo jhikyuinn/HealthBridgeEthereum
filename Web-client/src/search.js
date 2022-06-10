@@ -154,10 +154,9 @@ const DeleteInformation = async () => {
                 Today Date
                 <div className="form-group">
                 <input
-                  readOnly="false"
+                  readOnly={true}
                   type="text"
                   value={today}
-                  onChange={(e) => {setEHRNumber(e.target.value)}}
                   className="form-control"
                   placeholder="Date"
                 />
